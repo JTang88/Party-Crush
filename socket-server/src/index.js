@@ -10,15 +10,15 @@ const rooms = new Rooms(io);
 
 io.on('connection', (client) => {
   console.log('client connected');
-  const { roomId } = client.handshake.query;
-  const room = rooms.findOrCreate(roomId || 'default');
+  const roomStates = client.handshake.query;
+  const room = rooms.findOrCreate(roomStates);
 
-  client.join(room.get('id'));
+  client.join(room.id);
 
   each(clientEvents, (handler, event) => {
     client.on(event, handler.bind(null, { io, client, room }));
   });
 });
 
-const port = process.env.PORT || 4155;
+const port = process.env.PORT || 3113;
 server.listen(port, () => console.log(`socket server listening on port ${port}`));

@@ -4,14 +4,14 @@ export default class Rooms {
     this.store = {};
   }
 
-  findOrCreate(roomId, participants) {
+  findOrCreate({ roomId, numberOfParticipants, currentUserDetails }) {
     let room = this.store[roomId];
     if (!room) {
       room = {};
-      // now mirror the obj for matchings
       room.id = roomId;
-      room.participants = participants
-      
+      room.numberOfParticipants = numberOfParticipants
+      room.currentUsers = [];
+      room.currentUsers.push(currentUserDetails)
       this.store[roomId] = room;
     }
     return room;

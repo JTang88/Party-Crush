@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import CheckAuth from '../CheckAuth';
 import Login from '../Login';
 import Host from '../Host';
-import VerifyParty from '../VerifyParty'
+import Party from '../Party'
 
 const App = () =>
   <div>
@@ -13,7 +13,7 @@ const App = () =>
         <CheckAuth component={Host} {...props} />
       )} />
       <Route path='/:roomId' component={(props) => (
-        <CheckAuth component={VerifyParty} {...props} />
+        <CheckAuth component={Party} {...props} />
       )} />
     </Switch>
   </div>

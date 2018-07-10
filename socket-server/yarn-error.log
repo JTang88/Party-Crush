@@ -1,0 +1,61 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add babel-plugin-transform-object-rest-spread: ^6.26.0,
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.3.2
+
+Node version: 
+  10.6.0
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  {
+    "name": "socket-server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+      "axios": "^0.18.0",
+      "dotenv": "^6.0.0",
+      "lodash": "^4.17.10",
+      "socket.io": "^2.1.1"
+    },
+    "devDependencies": {
+      "babel-polyfill": "^6.26.0",
+      "babel-preset-env": "^1.7.0",
+      "babel-register": "^6.26.0",
+      "eslint": "^5.0.1",
+      "nodemon": "^1.17.5"
+    },
+    "scripts": {
+      "start": "nodemon bin/entry.js",
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: babel-plugin-transform-object-rest-spread:: Invalid URI "babel-plugin-transform-object-rest-spread:/"
+      at Request.module.exports.Request.init (/usr/local/lib/node_modules/yarn/lib/cli.js:123173:31)
+      at new Request (/usr/local/lib/node_modules/yarn/lib/cli.js:123027:8)
+      at request (/usr/local/lib/node_modules/yarn/lib/cli.js:121625:10)
+      at RequestManager.execute (/usr/local/lib/node_modules/yarn/lib/cli.js:62141:17)
+      at RequestManager.shiftQueue (/usr/local/lib/node_modules/yarn/lib/cli.js:62168:10)
+      at promise.default (/usr/local/lib/node_modules/yarn/lib/cli.js:61947:12)
+      at new Promise (<anonymous>)
+      at new F (/usr/local/lib/node_modules/yarn/lib/cli.js:29389:28)
+      at RequestManager.request (/usr/local/lib/node_modules/yarn/lib/cli.js:61945:21)
+      at NpmRegistry.request (/usr/local/lib/node_modules/yarn/lib/cli.js:30362:32)

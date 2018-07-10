@@ -3,7 +3,7 @@ import WrongParty from './WrongParty';
 import Crush from './Crush';
 import axios from 'axios';
 
-class VerifyParty extends Component {
+class Party extends Component {
   state = {
     varified: false,
     exist: null,
@@ -11,7 +11,7 @@ class VerifyParty extends Component {
 
   async componentDidMount () {
     const { pathname } = this.props.location
-    console.log('here is pathname in VerifyParty', pathname)
+    console.log('here is pathname in Party', pathname)
     const { data: { exist } } = await axios.post(`${process.env.REACT_APP_REST_SERVER_URL}/api/verify`, {
       roomId: pathname.substring(1, pathname.length),
     });
@@ -38,4 +38,4 @@ class VerifyParty extends Component {
   }
 }
 
-export default VerifyParty
+export default Party
