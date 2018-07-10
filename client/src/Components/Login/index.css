@@ -1,0 +1,13 @@
+.login-container {
+  background-color: #ff6b81;
+  padding: 60px;
+  text-align: center;
+  height: 100vh;
+  color: white;
+}
+
+.face-login-wrap {
+  height: 80px;
+  width: 250px;
+  margin: 30px auto auto auto;
+}
