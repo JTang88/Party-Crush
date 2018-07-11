@@ -10,8 +10,9 @@ const rooms = new Rooms(io);
 
 io.on('connection', (client) => {
   console.log('client connected');
-  const roomStates = client.handshake.query;
-  const room = rooms.findOrCreate(roomStates);
+  const { query } = client.handshake;
+  console.log('here is query', query)
+  const room = rooms.findOrCreate(query);
 
   client.join(room.id);
 

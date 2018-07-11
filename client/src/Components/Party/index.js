@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import WrongParty from './WrongParty';
 import Crush from './Crush';
 import axios from 'axios';
+
+@inject('CurrentUserStore')
+@inject('RoomStore')
+@observer
 
 class Party extends Component {
   state = {
@@ -10,13 +15,14 @@ class Party extends Component {
   }
 
   async componentDidMount () {
-    const { pathname } = this.props.location
-    console.log('here is pathname in Party', pathname)
-    const { data: { exist } } = await axios.post(`${process.env.REACT_APP_REST_SERVER_URL}/api/verify`, {
+    const { RoomStore, location: { pathname } } = this.props;
+    const { data: { exist, numberOfParticipants, roomId } } = await axios.post(`${process.env.REACT_APP_REST_SERVER_URL}/api/verify`, {
       roomId: pathname.substring(1, pathname.length),
     });
-    console.log('here is exist', exist)
+
     if (exist) {
+      RoomStore.details.numberOfParticipants = numberOfParticipants;
+      RoomStore.details.roomId = roomId;
       this.setState({
         varified: true,
         exist,

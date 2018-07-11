@@ -8,10 +8,9 @@ import { throttle } from 'lodash';
 
 class Crush extends Component {
   componentDidMount() {
-    const { CurrentUserStore: { currentUserDetails }, RoomStore: { details: { roomId, numberOfParticipants } } } = this.props;
+    const { RoomStore: { details: { roomId, numberOfParticipants } } } = this.props;
     this.socket = io(process.env.REACT_APP_SOCKET_SERVER_URL, {
       query: {
-        currentUserDetails,
         roomId,
         numberOfParticipants,
       }
@@ -21,23 +20,28 @@ class Crush extends Component {
       this.socket.emit('client.ready');
     });
 
-    this.socket.on('server.initialState', ({ numberOfParticipants, currentUserDetails, clientId }) => {
-      console.log('here is numberOfParticipants', numberOfParticipants)
+    // this.socket.on('server.initialState', ({ numberOfParticipants, currentUsers, clientId }) => {
+    //   console.log('here is currentUser[0].name', currentUsers[0].name)
+    //   // this.setState({ id, text });
+    // });
+
+    this.socket.on('server.initialState', (data) => {
+      console.log('here is data', data)
       // this.setState({ id, text });
     });
 
-    this.socket.on('server.changed', ({ text }) => {
-      this.setState({ text });
-    });
+    // this.socket.on('server.changed', ({ text }) => {
+    //   this.setState({ text });
+    // });
 
-    this.socket.on('server.run', ({ stdout }) => {
-      this.setState({ stdout });
-    });
+    // this.socket.on('server.run', ({ stdout }) => {
+    //   this.setState({ stdout });
+    // });
   }
 
-  handleChange = throttle((editor, metadata, value) => {
-    this.socket.emit('client.update', { text: value });
-  }, 250)
+  // handleChange = throttle((editor, metadata, value) => {
+  //   this.socket.emit('client.update', { text: value });
+  // }, 250)
 
 
   render() {

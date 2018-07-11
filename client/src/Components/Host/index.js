@@ -5,7 +5,6 @@ import { Typography, TextField, Button } from '@material-ui/core';
 import './index.css';
 
 @inject('CurrentUserStore')
-@inject('RoomStore')
 @observer
 
 class Host extends Component {
@@ -20,12 +19,11 @@ class Host extends Component {
   };
 
   handleStart = async () => {
-    const { CurrentUserStore, RoomStore, history } = this.props;
-    const { data: { roomId } } = await axios.get(`${process.env.REACT_APP_REST_SERVER_URL }/api/new-room`);
-    console.log('here is roomId', roomId);
+    const { CurrentUserStore, history } = this.props;
+    const { data: { roomId } }  = await axios.post(`${process.env.REACT_APP_REST_SERVER_URL}/api/new-room`, {
+      numberOfParticipants: this.state.numberOfParticipants
+    });
     CurrentUserStore.host = true;
-    RoomStore.details.numberOfParticipants = this.state.numberOfParticipants
-    RoomStore.details.roomId = roomId;
     history.push(`/${roomId}`)
   }
 

@@ -4,7 +4,7 @@ import { fetchNewRoomId, verifyParty } from '../controllers';
 const router = express.Router();
 
 router.route('/new-room')
-  .get(fetchNewRoomId);
+  .post(fetchNewRoomId);
 
 router.route('/verify')
   .post(verifyParty)

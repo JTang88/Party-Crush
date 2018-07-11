@@ -6,6 +6,7 @@ const RoomSchema = mongoose.Schema({
     type: String,
     'default': shortId.generate
   },
+  numberOfParticipants: Number
 });
 
 const Room = mongoose.model('Room', RoomSchema);
