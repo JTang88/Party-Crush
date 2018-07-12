@@ -1,9 +1,11 @@
 import { observable, action } from 'mobx';
+import { create, persist } from 'mobx-persist'
 
 class CurrentUser {
-  @observable numberOfParticipants = 0
-  @observable currentUserDetails = {}
-  @observable host = false;
+  @persist @observable numberOfParticipants = 0
+  @persist('object') @observable currentUserDetails = {}
+  @persist @observable host = false
+  @persist @observable participantAdded = false
 
   @action setNumberOfParticipants(numberOfParticipants) {
     this.numberOfParticipants = numberOfParticipants;
@@ -12,20 +14,16 @@ class CurrentUser {
   @action setCurrentUserDetails(currentUserDetails) {
     this.currentUserDetails = currentUserDetails;
   }
-
 }
 
-
-// class CurrentUser {
-//   @observable numberOfParticipants = 0
-//   @observable currentUserDetails = []
-
-//   @action setCurrentUserDetails(currentUserDetails) {
-//     this.currentUserDetails.push(currentUserDetails);
-//   }
-
-// }
+const hydrate = create({
+  storage: localStorage, 
+  jsonify: true,  
+})
 
 const CurrentUserStore = new CurrentUser();
 
 export default CurrentUserStore;
+
+hydrate('CurrentUserStore', CurrentUserStore)
+  .then(() => console.log('CurrentUserStore hydrated'))

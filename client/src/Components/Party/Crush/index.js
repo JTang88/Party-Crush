@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import io from 'socket.io-client';
-import { throttle } from 'lodash';
+// import { throttle } from 'lodash';
+import Progress from './Progress'
+import Waiting from './Waiting'
 
 @inject('CurrentUserStore', 'RoomStore')
 @observer
 
 class Crush extends Component {
   componentDidMount() {
-    const { RoomStore: { details: { roomId, numberOfParticipants } } } = this.props;
+    let { 
+      CurrentUserStore: { currentUserDetails, host, participantAdded }, 
+      RoomStore: { details: { roomId, numberOfParticipants } } 
+    } = this.props;
+
     this.socket = io(process.env.REACT_APP_SOCKET_SERVER_URL, {
       query: {
         roomId,
@@ -20,16 +26,21 @@ class Crush extends Component {
       this.socket.emit('client.ready');
     });
 
-    // this.socket.on('server.initialState', ({ numberOfParticipants, currentUsers, clientId }) => {
-    //   console.log('here is currentUser[0].name', currentUsers[0].name)
-    //   // this.setState({ id, text });
-    // });
-
     this.socket.on('server.initialState', (data) => {
-      console.log('here is data', data)
-      // this.setState({ id, text });
+      this.props.RoomStore.details = data;
+      
+      console.log('here is participantAdded prior to update', participantAdded)
+
+
+      if(!participantAdded) {
+        this.socket.emit('client.addUser', Object.assign({}, currentUserDetails));
+        participantAdded = true
+      }
     });
 
+    this.socket.on('server.participantAdded', (data) => {
+      this.props.RoomStore.details = data;
+    });
     // this.socket.on('server.changed', ({ text }) => {
     //   this.setState({ text });
     // });
@@ -45,11 +56,12 @@ class Crush extends Component {
 
 
   render() {
-    return (
-      <div >
-        Here is Crush!
-      </div>
-    );
+    const { RoomStore: { details: { numberOfParticipants, participants } } } = this.props;
+
+    if (Number(numberOfParticipants) === participants.length) {
+      return <Progress />
+    }
+    return <Waiting />
   }
 }
 

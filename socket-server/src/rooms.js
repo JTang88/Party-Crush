@@ -9,9 +9,12 @@ export default class Rooms {
     if (!room) {
       room = {};
       room.id = roomId;
+      room.participants = [];
       room.numberOfParticipants = numberOfParticipants
       this.store[roomId] = room;
     } 
     return room;
   }
+
+  
 }

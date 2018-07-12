@@ -2,6 +2,7 @@ import axios from 'axios';
 
 import {
   serverInitialState,
+  addParticipant,
   serverChanged,
   serverLeave,
   serverRun,
@@ -13,16 +14,21 @@ const clientReady = ({ io, client, room }) => {
   serverInitialState({ io, client, room });
 };
 
+const clientAddParticipant = ({ io, client, room }, payload) => {
+  console.log('client adds user');
+  addParticipant({ io, client, room }, payload);
+};
+
 // const clientUpdate = ({ io, client, room }, payload) => {
 //   console.log('client update heard. payload.text = ', payload.text);
 //   room.set('text', payload.text);
 //   serverChanged({ io, client, room });
 // };
 
-// const clientDisconnect = ({ io, room }) => {
-//   console.log('client disconnected');
-//   serverLeave({ io, room });
-// };
+const clientDisconnect = ({ io, room }) => {
+  console.log('client disconnected');
+  serverLeave({ io, room });
+};
 
 // const clientRun = async ({ io, room }) => {
 //   console.log('running code from client. room.get("text") = ', room.get('text'));
@@ -46,8 +52,9 @@ const clientReady = ({ io, client, room }) => {
 
 const clientEmitters = {
   'client.ready': clientReady,
+  'client.addUser': clientAddParticipant,
   // 'client.update': clientUpdate,
-  // 'client.disconnect': clientDisconnect,
+  'client.disconnect': clientDisconnect,
   // 'client.run': clientRun,
   // 'client.message': clientMessage,
 };

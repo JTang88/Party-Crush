@@ -17,7 +17,7 @@ io.on('connection', (client) => {
   client.join(room.id);
 
   each(clientEvents, (handler, event) => {
-    client.on(event, handler.bind(null, { io, client, room }));
+    client.on(event, handler.bind(null, { io, client, room, rooms }));
   });
 });
 
