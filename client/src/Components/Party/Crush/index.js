@@ -28,9 +28,9 @@ class Crush extends Component {
 
     this.socket.on('server.initialState', async (data) => {
       replaceRoomDetails(data);
-      if(localStorage.getItem('participantAdded') !== 'true') {
+      if(sessionStorage.getItem('participantAdded') !== 'true') {
         this.socket.emit('client.addUser', Object.assign({}, currentUserDetails));
-        localStorage.setItem('participantAdded', 'true')
+        sessionStorage.setItem('participantAdded', 'true')
       }
     });
 

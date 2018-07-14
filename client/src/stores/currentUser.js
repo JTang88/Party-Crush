@@ -3,7 +3,7 @@ import { create, persist } from 'mobx-persist'
 
 class CurrentUser {
   @persist('object') @observable currentUserDetails = {}
-  @persist @observable host = false
+  // @persist @observable host = false
   @persist('object') @observable participantAdded = false
 
   @action toggleParticipantAdded = () => {

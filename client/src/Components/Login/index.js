@@ -17,7 +17,7 @@ const styles = {
 const Login = ({ CurrentUserStore, history, location, classes: { paperRoot } }) => {
 
   const componentClicked = async (e) => {
-    await localStorage.setItem('authenticated', 'true')
+    await sessionStorage.setItem('authenticated', 'true')
     if (location.from) {
       history.push(`${location.from}`);
     } else {

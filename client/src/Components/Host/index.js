@@ -19,11 +19,11 @@ class Host extends Component {
   };
 
   handleStart = async () => {
-    const { CurrentUserStore, history } = this.props;
+    const { history } = this.props;
     const { data: { roomId } }  = await axios.post(`${process.env.REACT_APP_REST_SERVER_URL}/api/new-room`, {
       numberOfParticipants: this.state.numberOfParticipants
     });
-    CurrentUserStore.host = true;
+    sessionStorage.setItem('currentUserIsHost', 'true')
     history.push(`/${roomId}`)
   }
 
