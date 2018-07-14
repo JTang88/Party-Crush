@@ -9,10 +9,10 @@ import Waiting from './Waiting'
 @observer
 
 class Crush extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     let { 
-      CurrentUserStore: { currentUserDetails, host, participantAdded }, 
-      RoomStore: { details: { roomId, numberOfParticipants } } 
+      CurrentUserStore: { currentUserDetails, toggleParticipantAdded }, 
+      RoomStore: { replaceRoomDetails, details: { roomId, numberOfParticipants } } 
     } = this.props;
 
     this.socket = io(process.env.REACT_APP_SOCKET_SERVER_URL, {
@@ -26,20 +26,16 @@ class Crush extends Component {
       this.socket.emit('client.ready');
     });
 
-    this.socket.on('server.initialState', (data) => {
-      this.props.RoomStore.details = data;
-      
-      console.log('here is participantAdded prior to update', participantAdded)
-
-
-      if(!participantAdded) {
+    this.socket.on('server.initialState', async (data) => {
+      replaceRoomDetails(data);
+      if(localStorage.getItem('participantAdded') !== 'true') {
         this.socket.emit('client.addUser', Object.assign({}, currentUserDetails));
-        participantAdded = true
+        localStorage.setItem('participantAdded', 'true')
       }
     });
 
     this.socket.on('server.participantAdded', (data) => {
-      this.props.RoomStore.details = data;
+      replaceRoomDetails(data);
     });
     // this.socket.on('server.changed', ({ text }) => {
     //   this.setState({ text });
@@ -56,9 +52,9 @@ class Crush extends Component {
 
 
   render() {
-    const { RoomStore: { details: { numberOfParticipants, participants } } } = this.props;
+    const { RoomStore: { participantsToCome } } = this.props;
 
-    if (Number(numberOfParticipants) === participants.length) {
+    if (participantsToCome === 0) {
       return <Progress />
     }
     return <Waiting />

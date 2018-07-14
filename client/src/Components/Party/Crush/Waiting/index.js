@@ -1,14 +1,37 @@
-import React from 'react';
-import { Typography } from '@material-ui/core';
+import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import { Typography, CircularProgress, withStyles } from '@material-ui/core';
+import './index.css';
 
-const Waiting = () => 
-  <div>
-   <Typography
-     variant="display2"
-     color="inherit"
-   >
-     Waiting for other participants to arrive!
-   </Typography>
-  </div>
+const styles = {
+  root: {
+    marginTop: 30,
+  }
+}
 
-export default Waiting
+@inject('RoomStore')
+@observer
+
+class Waiting extends Component {
+  render() {
+    const {
+      RoomStore: { participantsToCome },
+      classes: { root }
+    } = this.props;
+
+    return (
+      <div className='waiting-container'>
+        <Typography
+          variant='title'
+          color='inherit'
+          align='center'
+        >
+          {`Waiting for ${participantsToCome} more participants to arrive!`}
+        </Typography>
+        <CircularProgress className={root} color='secondary' />
+      </div>
+    )
+  }
+}
+
+export default withStyles(styles)(Waiting)

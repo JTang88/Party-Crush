@@ -18,7 +18,11 @@ const Login = ({ CurrentUserStore, history, location, classes: { paperRoot } }) 
 
   const componentClicked = async (e) => {
     await localStorage.setItem('authenticated', 'true')
-    history.push(`${location.from}`);
+    if (location.from) {
+      history.push(`${location.from}`);
+    } else {
+      history.push('/');
+    }
   };
 
   const responseFacebook = async (response) => {

@@ -2,13 +2,14 @@ import { observable, action } from 'mobx';
 import { create, persist } from 'mobx-persist'
 
 class CurrentUser {
-  @persist @observable numberOfParticipants = 0
   @persist('object') @observable currentUserDetails = {}
   @persist @observable host = false
-  @persist @observable participantAdded = false
+  @persist('object') @observable participantAdded = false
 
-  @action setNumberOfParticipants(numberOfParticipants) {
-    this.numberOfParticipants = numberOfParticipants;
+  @action toggleParticipantAdded = () => {
+    console.log('here is participantAdded before toggle', this.participantAdded)
+    this.participantAdded = true;
+    console.log('here is participantAdded after toggle', this.participantAdded)
   }
 
   @action setCurrentUserDetails(currentUserDetails) {

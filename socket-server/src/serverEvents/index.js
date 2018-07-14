@@ -27,10 +27,12 @@ export const addParticipant = ({ client, room, io }, payload) => {
 // };
 
 export const serverLeave = ({ io, room, rooms }) => {
-  delete rooms.store[room.id]
+  console.log('=================================================serverLeave triggered===========================')
   io
-    .in(room.get('id'))
+    .in(room.id)
     .emit('server.leave');
+
+  delete rooms.store[room.id]
 };
 
 // export const serverRun = ({ io, room }, stdout) => {

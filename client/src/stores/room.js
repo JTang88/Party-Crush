@@ -1,12 +1,19 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { create, persist } from 'mobx-persist'
 
 
 class Room {
-  @persist('object') @observable details = { participants: [] }
+  @persist('object') @observable details = { 
+    participants: [], 
+    numberOfParticipants: 0,
+  }
 
-  @action replaceDetails (details) {
-    this.details = details;
+  @action replaceRoomDetails = (roomDetails) => {
+    this.details = roomDetails;
+  }
+
+  @computed get participantsToCome () {
+    return Number(this.details.numberOfParticipants) - this.details.participants.length 
   } 
 }
 
