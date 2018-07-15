@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { toJS } from 'mobx';
 import io from 'socket.io-client';
-// import { throttle } from 'lodash';
+import { throttle } from 'lodash';
 import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'
 
@@ -29,14 +30,24 @@ class Crush extends Component {
     this.socket.on('server.initialState', async (data) => {
       replaceRoomDetails(data);
       if(sessionStorage.getItem('participantAdded') !== 'true') {
+        console.log('here is currentUserDetails', toJS(currentUserDetails))
+
         this.socket.emit('client.addUser', Object.assign({}, currentUserDetails));
+
+
         sessionStorage.setItem('participantAdded', 'true')
       }
     });
 
     this.socket.on('server.participantAdded', (data) => {
+      console.log('here is how I get data', data)
       replaceRoomDetails(data);
     });
+
+    // this.socket.on('server.participantAdded', throttle((data) => {
+    //   replaceRoomDetails(data);
+    // }, 250));
+
     // this.socket.on('server.changed', ({ text }) => {
     //   this.setState({ text });
     // });

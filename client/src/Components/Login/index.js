@@ -14,19 +14,16 @@ const styles = {
   },
 }
 
-const Login = ({ CurrentUserStore, history, location, classes: { paperRoot } }) => {
+const Login = ({ CurrentUserStore: { setCurrentUserDetails }, history, location, classes: { paperRoot } }) => {
 
-  const componentClicked = async (e) => {
+  const responseFacebook = async (response) => {
+    await setCurrentUserDetails(response);
     await sessionStorage.setItem('authenticated', 'true')
     if (location.from) {
       history.push(`${location.from}`);
     } else {
       history.push('/');
     }
-  };
-
-  const responseFacebook = async (response) => {
-    CurrentUserStore.currentUserDetails = response;
   }
 
   console.log('here is history in Login', history)
@@ -57,7 +54,6 @@ const Login = ({ CurrentUserStore, history, location, classes: { paperRoot } }) 
           <FacebookLogin
             appId="237618007038254"
             fields="name,email,picture.width(150).height(150)"
-            onClick={componentClicked}
             callback={responseFacebook}
           />
         </div>
