@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Typography, withStyles } from '@material-ui/core';
+import { Typography, withStyles, Paper, Button } from '@material-ui/core';
 import { inject, observer } from 'mobx-react';
 import { toJS } from 'mobx';
 import './index.css';
@@ -8,6 +8,13 @@ const styles = {
   sub: {
     width: 250,
     margin: 'auto'
+  },
+  paper: {
+    width: 210,
+    minHeight: 250,
+    padding: '15px 0px 15px 0px',
+    margin: '50px auto 50px auto',
+    textAlign: 'center',
   }
 }
 
@@ -16,7 +23,7 @@ const styles = {
 
 class ChooseCrush extends Component {
   render () {
-    const { classes: { sub } } = this.props;
+    const { classes: { sub, paper } } = this.props;
     const { details: { participants } } = this.props.RoomStore
     console.log('here is participants', toJS(participants))
     return (
@@ -32,10 +39,24 @@ class ChooseCrush extends Component {
         </Typography>
         {
           participants.map(participant => 
-            <div>
-              {participant.name}
-              <img className='photo' src={participant.picture.data.url} alt="photo" />
-            </div>
+            <Paper className={paper}>
+              <Typography
+                variant='title'
+                color='primary'
+                gutterBottom
+              >
+                {participant.name}
+              </Typography>
+              <div>
+                <img className='photo' src={participant.picture.data.url} alt={`${participant.name}'s profile`} />
+              </div>
+              <Button
+                variant='contained'
+                color='primary'
+              >
+               Crush
+              </Button>
+            </Paper>
           )
         }
       </div>
