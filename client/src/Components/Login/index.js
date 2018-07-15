@@ -56,7 +56,7 @@ const Login = ({ CurrentUserStore, history, location, classes: { paperRoot } }) 
         <div className="face-login-wrap">
           <FacebookLogin
             appId="237618007038254"
-            fields="name,email,picture"
+            fields="name,email,picture.width(800).height(800)"
             onClick={componentClicked}
             callback={responseFacebook}
           />

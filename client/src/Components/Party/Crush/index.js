@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import io from 'socket.io-client';
 // import { throttle } from 'lodash';
-import Progress from './Progress'
+import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'
 
 @inject('CurrentUserStore', 'RoomStore')
@@ -55,7 +55,7 @@ class Crush extends Component {
     const { RoomStore: { participantsToCome } } = this.props;
 
     if (participantsToCome === 0) {
-      return <Progress />
+      return <ChooseCrush />
     }
     return <Waiting />
   }
