@@ -1,0 +1,9 @@
+.progress-container {
+  padding: 50px;
+}
+
+.progress-photo {
+  margin-top: 4px;
+  width: 50px;
+  border-radius: 50%;
+}
