@@ -15,8 +15,19 @@ export const addParticipant = ({ client, room, io }, payload) => {
     .emit('server.participantAdded', {
     clientId: client.id,
     ...room,
-  }, console.log('===============here is room =======================', room));
+  }, console.log('here is room when addParticipant ====', room));
 };
+
+export const addMatch = ({ client, room, io }, payload) => {
+  room.matches.push(payload)
+  io
+    .in(room.id)
+    .emit('server.matchAdded', {
+      clientId: client.id,
+      ...room,
+    }, console.log('here is room when addMatch ====', room));
+};
+
 
 // export const serverChanged = ({ io, room }) => {
 //   const roomId = room.get('id');

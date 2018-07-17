@@ -23,9 +23,9 @@ const styles = {
 
 class ChooseCrush extends Component {
   render () {
-    const { classes: { sub, paper } } = this.props;
+    const { classes: { sub, paper }, handleChooseCrush } = this.props;
     const { details: { participants } } = this.props.RoomStore
-    console.log('here is participants', toJS(participants))
+    console.log('here is handleChooseCrush in ChooseCrush', handleChooseCrush)
     return (
       <div className='choose-crush-container' >
         <Typography
@@ -53,6 +53,7 @@ class ChooseCrush extends Component {
               <Button
                 variant='contained'
                 color='primary'
+                onClick={() => handleChooseCrush(participant.id)}
               >
                Crush
               </Button>

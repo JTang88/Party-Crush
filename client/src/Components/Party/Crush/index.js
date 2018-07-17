@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { toJS } from 'mobx';
 import io from 'socket.io-client';
-import { throttle } from 'lodash';
 import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'
+import Progress from './Progress';
 
 @inject('CurrentUserStore', 'RoomStore')
 @observer
 
 class Crush extends Component {
-  async componentDidMount() {
+  state = {
+    matchAdded: JSON.parse(sessionStorage.getItem('matchAdded'))
+  };
+
+  componentDidMount() {
     let { 
-      CurrentUserStore: { currentUserDetails, toggleParticipantAdded }, 
+      CurrentUserStore: { currentUserDetails }, 
       RoomStore: { replaceRoomDetails, details: { roomId, numberOfParticipants } } 
     } = this.props;
 
@@ -30,43 +33,33 @@ class Crush extends Component {
     this.socket.on('server.initialState', async (data) => {
       replaceRoomDetails(data);
       if(sessionStorage.getItem('participantAdded') !== 'true') {
-        console.log('here is currentUserDetails', toJS(currentUserDetails))
-
         this.socket.emit('client.addUser', Object.assign({}, currentUserDetails));
-
-
         sessionStorage.setItem('participantAdded', 'true')
       }
     });
 
     this.socket.on('server.participantAdded', (data) => {
-      console.log('here is how I get data', data)
       replaceRoomDetails(data);
     });
 
-    // this.socket.on('server.participantAdded', throttle((data) => {
-    //   replaceRoomDetails(data);
-    // }, 250));
-
-    // this.socket.on('server.changed', ({ text }) => {
-    //   this.setState({ text });
-    // });
-
-    // this.socket.on('server.run', ({ stdout }) => {
-    //   this.setState({ stdout });
-    // });
+    this.socket.on('server.matchAdded', (data) => {
+      console.log('here is the data I get back from addMatch', data)
+      replaceRoomDetails(data);
+    });
   }
 
-  // handleChange = throttle((editor, metadata, value) => {
-  //   this.socket.emit('client.update', { text: value });
-  // }, 250)
-
+  handleChooseCrush = (participantId) => {
+    this.socket.emit('client.addMatch', { [this.props.CurrentUserStore.currentUserDetails.id]: participantId }) 
+    sessionStorage.setItem('matchAdded', 'true')
+    this.setState({ matchAdded: true })
+  }
 
   render() {
     const { RoomStore: { participantsToCome } } = this.props;
-
-    if (participantsToCome === 0) {
-      return <ChooseCrush />
+    if (participantsToCome === 0 && !this.state.matchAdded) {
+      return <ChooseCrush handleChooseCrush={this.handleChooseCrush} />
+    } else if (this.state.matchAdded) {
+      return <Progress />
     }
     return <Waiting />
   }

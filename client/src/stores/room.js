@@ -1,12 +1,8 @@
 import { observable, action, computed, autorun, toJS, extendObservable } from 'mobx';
 
-
-let count = 0;
-
 function autoSave(store, save) {
   let firstRun = true;
   autorun(() => {
-    console.log('here is count', count++)
     const json = JSON.stringify(toJS(store));
     if (!firstRun) {
       save(json);
@@ -20,6 +16,11 @@ class Room {
   @observable details = {
     participants: [], 
     numberOfParticipants: 0,
+    matches: [],
+  }
+
+  @action addMatch = (match) => {
+    this.details.matchs.push(match);
   }
 
   @action replaceRoomDetails = (roomDetails) => {
