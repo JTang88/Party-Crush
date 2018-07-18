@@ -31,6 +31,10 @@ class Room {
     return Number(this.details.numberOfParticipants) - this.details.participants.length 
   } 
 
+  @computed get allhaveChosenCrush() {
+    return this.details.matches.length > 0 && this.details.matches.length === Number(this.details.numberOfParticipants)
+  }
+
   constructor() {
     this.load();
     autoSave(this, this.save.bind(this));

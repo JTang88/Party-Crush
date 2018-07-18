@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'
 import Progress from './Progress';
+import Result from './Result'
 
 @inject('CurrentUserStore', 'RoomStore')
 @observer
@@ -55,11 +56,15 @@ class Crush extends Component {
   }
 
   render() {
-    const { RoomStore: { participantsToCome } } = this.props;
+    const { RoomStore: { participantsToCome, allhaveChosenCrush } } = this.props;
+    console.log('here is allhaveChosenCrush', allhaveChosenCrush)
+
     if (participantsToCome === 0 && !this.state.matchAdded) {
       return <ChooseCrush handleChooseCrush={this.handleChooseCrush} />
-    } else if (this.state.matchAdded) {
+    } else if (this.state.matchAdded && !allhaveChosenCrush) {
       return <Progress />
+    } else if (allhaveChosenCrush) {
+      return <Result />
     }
     return <Waiting />
   }
