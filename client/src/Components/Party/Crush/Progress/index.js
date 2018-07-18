@@ -3,6 +3,7 @@ import { inject, observer } from 'mobx-react';
 import { withStyles, Paper, Typography, Grid, CircularProgress, Icon } from '@material-ui/core';
 import { toJS } from 'mobx';
 import matchChose from '../../../../lib/matchChose';
+import AllSetAnimation from './AllSetAnimation';
 import './index.css';
 
 const styles = {
@@ -39,7 +40,7 @@ const styles = {
 class Progress extends Component {
   render () {
     console.log('here is what RoomStore.details now look like', toJS(this.props.RoomStore.details));
-    const { classes: { title, paper, circle, icon, sub }, RoomStore: { details: { participants, matches } } } = this.props
+    const { toggleAnimationRan, classes: { title, paper, circle, icon, sub }, RoomStore: { allhaveChosenCrush, details: { participants, matches } } } = this.props
     return (
       <div className='progress-container'>
         <Typography
@@ -52,7 +53,7 @@ class Progress extends Component {
         </Typography>
         {
           participants.map(participant =>
-            <Paper className={paper}>
+            <Paper key={participant.id} className={paper}>
               <Grid container>
                 <Grid item sm={3}>
                   <img className='progress-photo' src={participant.picture.data.url} alt={`${participant.name}'s profile`} />
@@ -82,6 +83,11 @@ class Progress extends Component {
             </Paper>
           )
         }
+        {
+          allhaveChosenCrush? 
+            <AllSetAnimation toggleAnimationRan={toggleAnimationRan}/> :
+            null
+         }
       </div>
     )
   }

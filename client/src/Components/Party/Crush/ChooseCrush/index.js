@@ -39,7 +39,7 @@ class ChooseCrush extends Component {
         </Typography>
         {
           participants.map(participant => 
-            <Paper className={paper}>
+            <Paper key={participant.id} className={paper}>
               <Typography
                 variant='title'
                 color='primary'

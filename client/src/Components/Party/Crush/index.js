@@ -11,7 +11,7 @@ import Result from './Result'
 
 class Crush extends Component {
   state = {
-    matchAdded: JSON.parse(sessionStorage.getItem('matchAdded'))
+    matchAdded: JSON.parse(sessionStorage.getItem('matchAdded')),
   };
 
   componentDidMount() {
@@ -56,14 +56,14 @@ class Crush extends Component {
   }
 
   render() {
-    const { RoomStore: { participantsToCome, allhaveChosenCrush } } = this.props;
+    const { RoomStore: { animationRan, participantsToCome, allhaveChosenCrush } } = this.props;
     console.log('here is allhaveChosenCrush', allhaveChosenCrush)
 
     if (participantsToCome === 0 && !this.state.matchAdded) {
       return <ChooseCrush handleChooseCrush={this.handleChooseCrush} />
-    } else if (this.state.matchAdded && !allhaveChosenCrush) {
+    } else if (this.state.matchAdded && !animationRan) {
       return <Progress />
-    } else if (allhaveChosenCrush) {
+    } else if (allhaveChosenCrush && animationRan) {
       return <Result />
     }
     return <Waiting />

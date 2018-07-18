@@ -19,6 +19,12 @@ class Room {
     matches: [],
   }
 
+  @observable animationRan = false
+
+  @action toggleAnimationRan = () => {
+    this.animationRan = !this.animationRan;
+  }
+
   @action addMatch = (match) => {
     this.details.matchs.push(match);
   }
@@ -40,11 +46,11 @@ class Room {
     autoSave(this, this.save.bind(this));
   }
 
-  load() {
+  load = async () => {
     let data = sessionStorage.getItem('RoomStore')
     if (data) {
       data = JSON.parse(data)
-      extendObservable(this, data);
+      await extendObservable(this, data);
     }
   }
 
