@@ -10,7 +10,7 @@ export default class Rooms {
       room = {};
       room.id = roomId;
       room.participants = [];
-      room.matches = [];
+      room.matches = {};
       room.numberOfParticipants = numberOfParticipants
       this.store[roomId] = room;
     } 

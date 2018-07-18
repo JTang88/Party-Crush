@@ -19,7 +19,7 @@ export const addParticipant = ({ client, room, io }, payload) => {
 };
 
 export const addMatch = ({ client, room, io }, payload) => {
-  room.matches.push(payload)
+  room.matches = Object.assign(room.matches, payload)
   io
     .in(room.id)
     .emit('server.matchAdded', {

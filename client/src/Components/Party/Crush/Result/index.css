@@ -1,0 +1,40 @@
+.result-container {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.heart {
+  width: 250px;
+  height: 200px;
+  margin: 0 auto 0 auto;
+  padding-top: 70px;
+  background-image: url(../../../../img/heart-images.png);
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+
+.matched-photo {
+  margin-top: 4px;
+  width: 80px;
+  border-radius: 50%;
+}
+
+.matched-1-wrap {
+  float: left;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+};
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.matched-2-wrap {
+  float: right;
+  height: 100px;
+  width: 100px;
+  text-align: center;
+}

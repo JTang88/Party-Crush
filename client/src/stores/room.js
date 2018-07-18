@@ -16,7 +16,7 @@ class Room {
   @observable details = {
     participants: [], 
     numberOfParticipants: 0,
-    matches: [],
+    matches: {},
   }
 
   @observable animationRan = false
@@ -38,7 +38,7 @@ class Room {
   } 
 
   @computed get allhaveChosenCrush() {
-    return this.details.matches.length > 0 && this.details.matches.length === Number(this.details.numberOfParticipants)
+    return Object.keys(this.details.matches).length > 0 && Object.keys(this.details.matches).length === Number(this.details.numberOfParticipants)
   }
 
   constructor() {
