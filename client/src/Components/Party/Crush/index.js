@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { withRouter } from 'react-router-dom'
+import { toJS } from 'mobx';
 import io from 'socket.io-client';
 import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'
@@ -20,6 +22,10 @@ class Crush extends Component {
       RoomStore: { replaceRoomDetails, details: { roomId, numberOfParticipants } } 
     } = this.props;
 
+    console.log('here is pathname', this.props.location.pathname)
+    console.log('here is roomId', roomId)
+
+
     this.socket = io(process.env.REACT_APP_SOCKET_SERVER_URL, {
       query: {
         roomId,
@@ -34,7 +40,7 @@ class Crush extends Component {
     this.socket.on('server.initialState', async (data) => {
       replaceRoomDetails(data);
       if(sessionStorage.getItem('participantAdded') !== 'true') {
-        this.socket.emit('client.addUser', Object.assign({}, currentUserDetails));
+        this.socket.emit('client.addUser', toJS(currentUserDetails));
         sessionStorage.setItem('participantAdded', 'true')
       }
     });
@@ -57,7 +63,6 @@ class Crush extends Component {
 
   render() {
     const { RoomStore: { animationRan, participantsToCome, allhaveChosenCrush } } = this.props;
-    console.log('here is allhaveChosenCrush', allhaveChosenCrush)
 
     if (participantsToCome === 0 && !this.state.matchAdded) {
       return <ChooseCrush handleChooseCrush={this.handleChooseCrush} />
@@ -70,4 +75,4 @@ class Crush extends Component {
   }
 }
 
-export default Crush;
+export default withRouter(Crush);

@@ -1,4 +1,4 @@
-import { observable, action, computed, autorun, toJS, extendObservable } from 'mobx';
+import { observable, action, computed, autorun, toJS, set } from 'mobx';
 
 function autoSave(store, save) {
   let firstRun = true;
@@ -13,6 +13,23 @@ function autoSave(store, save) {
 
 
 class Room {
+  constructor() {
+    this.load();
+    autoSave(this, this.save.bind(this));
+  }
+
+  load () {
+    let data = sessionStorage.getItem('RoomStore')
+    if (data) {
+      data = JSON.parse(data)
+      set(this, data);
+    }
+  }
+
+  save(json) {
+    sessionStorage.setItem('RoomStore', json)
+  }
+
   @observable details = {
     participants: [], 
     numberOfParticipants: 0,
@@ -40,58 +57,9 @@ class Room {
   @computed get allhaveChosenCrush() {
     return Object.keys(this.details.matches).length > 0 && Object.keys(this.details.matches).length === Number(this.details.numberOfParticipants)
   }
-
-  constructor() {
-    this.load();
-    autoSave(this, this.save.bind(this));
-  }
-
-  load = async () => {
-    let data = sessionStorage.getItem('RoomStore')
-    if (data) {
-      data = JSON.parse(data)
-      await extendObservable(this, data);
-    }
-  }
-
-  save(json) {
-    sessionStorage.setItem('RoomStore', json)
-  }
 }
 
 
 const RoomStore = new Room();
 
 export default RoomStore;
-
-
-// import { observable, action, computed } from 'mobx';
-// import { create, persist } from 'mobx-persist'
-
-
-// class Room {
-//   @persist('object') @observable details = { 
-//     participants: [], 
-//     numberOfParticipants: 0,
-//   }
-
-//   @action replaceRoomDetails = (roomDetails) => {
-//     this.details = roomDetails;
-//   }
-
-//   @computed get participantsToCome () {
-//     return Number(this.details.numberOfParticipants) - this.details.participants.length 
-//   } 
-// }
-
-// const hydrate = create({
-//   storage: localStorage,
-//   jsonify: true,
-// })
-
-// const RoomStore = new Room();
-
-// export default RoomStore;
-
-// hydrate('RoomStore', RoomStore)
-//   .then(() => console.log('RoomStore hydrated'))

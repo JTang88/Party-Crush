@@ -11,19 +11,17 @@ import RoomStore from './stores/room';
 import CurrentUserStore from './stores/currentUser';
 import registerServiceWorker from './registerServiceWorker';
 
-console.log('here is CUrrentUserStore before provider', CurrentUserStore)
-
 ReactDOM.render((
-  <BrowserRouter>
-    <MuiThemeProvider theme={theme}>
-      <Provider
-        RoomStore={RoomStore}
-        CurrentUserStore={CurrentUserStore}
-      >
-        <App />
-      </Provider>
-    </MuiThemeProvider>
-  </BrowserRouter>
+  <Provider
+    CurrentUserStore={CurrentUserStore}
+    RoomStore={RoomStore}
+  >
+    <BrowserRouter>
+      <MuiThemeProvider theme={theme}>
+          <App />
+      </MuiThemeProvider>
+    </BrowserRouter>
+  </Provider>
 ), document.getElementById('root'));
 registerServiceWorker();
 
