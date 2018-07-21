@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom'
 import { toJS } from 'mobx';
+import { every } from 'lodash';
 import io from 'socket.io-client';
 import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'
@@ -19,12 +20,8 @@ class Crush extends Component {
   componentDidMount() {
     let { 
       CurrentUserStore: { currentUserDetails }, 
-      RoomStore: { replaceRoomDetails, details: { roomId, numberOfParticipants } } 
+      RoomStore: { replaceRoomDetails, details: { roomId, numberOfParticipants, participants } } 
     } = this.props;
-
-    console.log('here is pathname', this.props.location.pathname)
-    console.log('here is roomId', roomId)
-
 
     this.socket = io(process.env.REACT_APP_SOCKET_SERVER_URL, {
       query: {
@@ -37,9 +34,9 @@ class Crush extends Component {
       this.socket.emit('client.ready');
     });
 
-    this.socket.on('server.initialState', async (data) => {
+    this.socket.on('server.initialState', (data) => {
       replaceRoomDetails(data);
-      if(sessionStorage.getItem('participantAdded') !== 'true') {
+      if (sessionStorage.getItem('participantAdded') !== 'true') {
         this.socket.emit('client.addUser', toJS(currentUserDetails));
         sessionStorage.setItem('participantAdded', 'true')
       }
@@ -56,8 +53,9 @@ class Crush extends Component {
     });
     
     window.addEventListener("unload", () => { 
-      console.log('window unloaded!')
-      this.socket.emit('client.disconnect') });    
+      this.socket.emit('client.disconnect') 
+    });  
+
   }
 
 

@@ -49,14 +49,3 @@ export const handleClientDisconnect = async ({ io, client, room, rooms }) => {
   })
 };
 
-// export const serverRun = ({ io, room }, stdout) => {
-//   io
-//     .in(room.get('id'))
-//     .emit('server.run', { stdout });
-// };
-
-// export const serverMessage = ({ io, room }, message) => {
-//   io
-//     .in(room.get('id'))
-//     .emit('server.message', message);
-// };
