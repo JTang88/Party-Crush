@@ -72,7 +72,7 @@ class Progress extends Component {
                     }
                   </Typography>
                 </Grid>
-                <Grid item sm={3} alignContent='center'>
+                <Grid item sm={3}>
                   {
                     matchChose(matches, participant.id) ? 
                       <Icon color='primary' className={icon}>done</Icon> :

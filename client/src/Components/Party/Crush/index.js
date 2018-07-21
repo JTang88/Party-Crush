@@ -46,6 +46,7 @@ class Crush extends Component {
     });
 
     this.socket.on('server.participantAdded', (data) => {
+      console.log('here is clientId', data.clientId)
       replaceRoomDetails(data);
     });
 
@@ -53,7 +54,12 @@ class Crush extends Component {
       console.log('here is the data I get back from addMatch', data)
       replaceRoomDetails(data);
     });
+    
+    window.addEventListener("unload", () => { 
+      console.log('window unloaded!')
+      this.socket.emit('client.disconnect') });    
   }
+
 
   handleChooseCrush = (participantId) => {
     this.socket.emit('client.addMatch', { [this.props.CurrentUserStore.currentUserDetails.id]: participantId }) 

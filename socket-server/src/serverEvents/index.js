@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 export const serverInitialState = ({ client, room, io }) => {
   io
     .in(room.id)
@@ -28,22 +30,23 @@ export const addMatch = ({ client, room, io }, payload) => {
     }, console.log('here is room when addMatch ====', room));
 };
 
-
-// export const serverChanged = ({ io, room }) => {
-//   const roomId = room.get('id');
-//   const text = room.get('text');
-//   io
-//     .in(roomId)
-//     .emit('server.changed', { text });
-// };
-
-export const serverLeave = ({ io, room, rooms }) => {
-  console.log('=================================================serverLeave triggered===========================')
-  io
-    .in(room.id)
-    .emit('server.leave');
-
-  delete rooms.store[room.id]
+export const handleClientDisconnect = async ({ io, client, room, rooms }) => {
+  io.of('/').in(room.id).clients((err, clients) => {
+    console.log('here are all the clients in this room before delete', clients)
+    const index = clients.indexOf(client.id);
+    if (index > -1) {
+      clients.splice(index, 1);
+      console.log('here are all the clients in this room after delete', clients)
+    }
+    if (clients.length === 0) {
+      axios.delete(`${process.env.REST_SERVER_URL}/api/delete-room`, {
+        params: {
+          roomId: room.id
+        }
+      });
+      delete rooms.store[room.id]
+    }
+  })
 };
 
 // export const serverRun = ({ io, room }, stdout) => {

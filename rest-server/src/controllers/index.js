@@ -44,3 +44,11 @@ export const verifyParty = async (req, res) => {
     });
   }
 }
+
+export const deleteRoom = async (req, res) => {
+  Room.findByIdAndRemove(req.query.roomId, () => {
+    res.status(200).json({
+      success: true,
+    });
+  })
+}

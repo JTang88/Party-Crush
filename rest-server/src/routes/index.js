@@ -1,5 +1,5 @@
 import express from 'express';
-import { fetchNewRoomId, verifyParty } from '../controllers';
+import { fetchNewRoomId, verifyParty, deleteRoom } from '../controllers';
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ router.route('/new-room')
 
 router.route('/verify')
   .post(verifyParty)
+
+router.route('/delete-room')
+  .delete(deleteRoom)
 // // Authorization route for login
 // router.route('/users/auth')
 //   .post(authUser);
