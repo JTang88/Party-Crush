@@ -32,7 +32,7 @@ class Result extends Component {
             <Typography variant='title' color='inherit' align='center' className={this.props.classes.sub}>
               No one likes each other at this party...
             </Typography> :
-            this.state.getMatches.map((match) => {
+            this.state.getMatches.map((match, i) => {
               let m1;
               let m2;
               for (let x in match) {
@@ -40,7 +40,7 @@ class Result extends Component {
                 m2 = getParticipantById(match[x], participants)
               }
               return (
-                <div className='heart'>
+                <div className='heart' key={Object.keys(this.state.getMatches)[i]} >
                   <div className='matched-1-wrap'>
                     <img className='matched-photo' src={m1.picture.data.url} alt={`${m1.name}'s profile`} />
                     <Typography variant='body2' color='inherit'>

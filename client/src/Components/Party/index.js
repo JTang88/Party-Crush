@@ -22,15 +22,14 @@ class Party extends Component {
 
     if (exist) {
       RoomStore.details.numberOfParticipants = numberOfParticipants;
-      // console.log('here is RoomStore.details.roomId', RoomStore.details.roomId)
-      // console.log('here is roomId', roomId)
-      // if (RoomStore.details.roomId && RoomStore.details.roomId !== roomId) {
-        // console.log('here is RoomStore.details.roomId', RoomStore.details.roomId)
-        // console.log('here is roomId', roomId)
-        // await sessionStorage.setItem('participantAdded', 'false')
-        // console.log('here is participantAdded after set item', sessionStorage.getItem('participantAdded'))
-      // }
+      console.log('here is oldRoomId', sessionStorage.getItem('oldRoomId'))
+      console.log('here is roomId', roomId)
+      if (sessionStorage.getItem('oldRoomId') !== roomId) {
+        sessionStorage.setItem('participantAdded', 'false')
+        console.log('here is participantAdded after set item', sessionStorage.getItem('participantAdded'))
+      }
       RoomStore.details.roomId = roomId;
+      sessionStorage.setItem('oldRoomId', roomId)
       this.setState({
         varified: true,
         exist,
