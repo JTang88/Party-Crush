@@ -22,6 +22,8 @@ yarn setup
 yarn env development
 ```
 
+* Before starting ther application, go to https://developers.facebook.com/ to get a appId, and then go to client/.env insert appId where it belongs
+
 * Start the application
 
 ```bash
@@ -29,5 +31,5 @@ yarn start:server # in one window
 yarn start:client # in another window
 ```
 
-* Lastly, go to https://developers.facebook.com/ to get a appId, and then go to client/.env insert appId where it belongs
+
 
