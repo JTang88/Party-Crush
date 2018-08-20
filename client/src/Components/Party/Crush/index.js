@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom'
 import { toJS } from 'mobx';
-import { every } from 'lodash';
 import io from 'socket.io-client';
 import ChooseCrush from './ChooseCrush'
 import Waiting from './Waiting'

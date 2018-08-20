@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# environmental
+config/env.js
+
 # misc
 .DS_Store
 .env

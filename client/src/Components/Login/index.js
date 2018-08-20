@@ -52,7 +52,7 @@ const Login = ({ CurrentUserStore: { setCurrentUserDetails }, history, location,
         </Typography>
         <div className="face-login-wrap">
           <FacebookLogin
-            appId="237618007038254"
+            appId={process.env.REACT_APP_FACEBOOK_APP_ID}
             fields="name,email,picture.width(150).height(150)"
             callback={responseFacebook}
           />

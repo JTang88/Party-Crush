@@ -1,0 +1,40 @@
+{
+  "name": "party-crush",
+  "version": "1.0.0",
+  "description": "This application is composed of sub applications, all self contained within their own folders; They all have their own independent `package.json` dependency management.",
+  "main": "index.js",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "dotenv": "^6.0.0",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "npm-run-all": "^4.1.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:client": "cd client && yarn build",
+    "start:client": "cd client && yarn start",
+    "start:rest-server": "cd rest-server && yarn start",
+    "start:socket-server": "cd socket-server && yarn start",
+    "start:server": "npm-run-all -p start:rest-server start:socket-server",
+    "setup:client": "cd client && yarn",
+    "setup:rest-server": "cd rest-server && yarn",
+    "setup:socket-server": "cd socket-server && yarn",
+    "setup": "npm-run-all setup:client setup:rest-server setup:socket-server",
+    "env": "node bin/entry.js buildEnv"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JTang88/Party-Crush.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JTang88/Party-Crush/issues"
+  },
+  "homepage": "https://github.com/JTang88/Party-Crush#readme"
+}
