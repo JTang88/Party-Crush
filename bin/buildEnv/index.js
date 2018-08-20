@@ -18,10 +18,7 @@ if (!envObject) {
 try {
   const subAppDirNames = Object.keys(envObject.directories);
   subAppDirNames.forEach((subAppDirName) => {
-    // services belong in a sub-folder
-    const isService = !!subAppDirName.match(/\-service/);
-    const relativePath = `../../${isService ? 'services/' : ''}${subAppDirName}`;
-
+    const relativePath = `../../${subAppDirName}`;
     const folderPath = path.resolve(__dirname, relativePath);
     const envFile = createFile(env, subAppDirName);
     fs.writeFileSync(folderPath + '/.env', envFile);

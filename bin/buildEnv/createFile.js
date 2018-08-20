@@ -20,8 +20,8 @@ const createEnvFile = (envName, directoryName) => {
 
   const defaults = configObj.defaults;
   const variablePrefix = configObj.directories[directoryName]._envPrefix || '';
-  const serversAndServices = _.pickBy(configObj.directories, (subAppSettings, subAppName) => {
-    return !!subAppName.match(/\-server|-service/) && subAppName !== directoryName;
+  const servers = _.pickBy(configObj.directories, (subAppSettings, subAppName) => {
+    return !!subAppName.match(/\-server/) && subAppName !== directoryName;
   });
 
   // write default values
@@ -36,7 +36,7 @@ const createEnvFile = (envName, directoryName) => {
   });
 
   // include other services' URLs
-  _.each(serversAndServices, (subAppSettings, subAppName) => {
+  _.each(servers, (subAppSettings, subAppName) => {
     const { host, port } = subAppSettings;
     subAppName = subAppName.replace('-', '_');
     file += `${variablePrefix}${subAppName.toUpperCase()}_URL=${host}:${port}\n`
